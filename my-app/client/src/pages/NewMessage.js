@@ -23,9 +23,11 @@ export function NewMessage(){
         setMessage(event.currentTarget.value);
     }
 
+    var messages = data == null ? [] : data.messages;
+
     return <div>
         <h1>New Message</h1>
-        <code>{data.messages.map(message => <Message description={message.description} />)}</code>
+        <code>{messages.map(message => <Message description={message.description} />)}</code>
         <form onSubmit={handleSubmit}>
             <textarea name="body"  placeholder="start typing here..."  value={message} onChange={handleChangeMessage}/>
             <br />
