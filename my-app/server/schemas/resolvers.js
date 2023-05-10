@@ -56,10 +56,25 @@ module.exports = {
 
         saveMessage: async (parent, args) => {
             const message = {
+                _id: 1,
                 description: args.description,
             }
-
+            messages.push(message);
             return message;
-        }
+        },
+
+        updateMessage: async (parent, { messageId, description}) => {
+            try{
+                return Message.findOneAndUpdate({_id: messageId}, { description }, {new:true});
+            } catch (error) {
+                throw new Error(`Failed to update message: ${error.message}`);
+            }
+            
+      
+        },
+
+        deleteMessage: async (parent, { messageId }) => {
+            return Thought.findOneAndDelete({ _id: messageId });
+          },
     }
 }
