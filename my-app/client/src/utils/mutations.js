@@ -24,4 +24,28 @@ export const ADD_USER = gql`
   }
 `;
 
+export const CREATE_MESSAGE = gql`
+  mutation createMessage($description: String!) {
+    createMessage(description: $description) 
+    {
+        _id
+        description
+    }
+  }  
+`;
 
+export const DELETE_MESSAGE = gql`
+  mutation deleteMessage($messageID:ID!)
+  {
+    deleteMessage(_id: $messageID)
+  }
+`;
+
+export const UPDATE_MESSAGE = gql`
+  mutation updateMessage($messageId: ID!, $description: String!) {
+  updateMessage(_id: $messageId, description: $updatedContent) {
+    _id
+    description
+  }
+}
+ `;

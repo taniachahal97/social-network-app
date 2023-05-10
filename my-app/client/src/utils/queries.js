@@ -7,3 +7,19 @@ export const QUERY_MESSAGES = gql`
         }
     }
 `;
+
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      _id
+      username
+      email
+      messages {
+        _id
+        description
+      }
+    }
+  }
+`;
+
+
