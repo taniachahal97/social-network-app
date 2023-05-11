@@ -22,4 +22,17 @@ export const QUERY_USER = gql`
   }
 `;
 
+export const MESSAGE_SUBSCRIPTION = gql`
+  subscription {
+    messageAdded {
+      _id
+      description
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+
 

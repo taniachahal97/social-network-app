@@ -31,12 +31,14 @@ const typeDefs = gql`
     type Mutation {
         addUser(username: String!, email: String!, password: String!): Auth
         login(email: String!, password: String!): Auth
-
-        saveMessage(description: String!): Message
-        createMessage(description: String!): Message
-        updateMessage(_id: ID!, descriptionn: String): Message
-        deleteMessage(id:String!): Boolean
+        updateMessage(_id: ID!, description: String!): Message
+        deleteMessage(_id:ID!): Message
+        addMessage(description: String!): Message
     }
+
+    type Subscription {
+        messageAdded: Message!
+      }
 `;
 
 module.exports = typeDefs;
