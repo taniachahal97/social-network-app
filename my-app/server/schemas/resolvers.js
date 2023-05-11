@@ -1,7 +1,9 @@
-const messages = [];
+//const messages = [];
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Message } = require('../models');
 const { signToken } = require('../utils/auth');
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub();
 
 module.exports = {
 
@@ -15,9 +17,17 @@ module.exports = {
             return User.findOne({ username }).populate('messages');
         },
 
-        messages: async () => {
-            return messages;
-        }
+        // messages: async () => {
+          //  return messages;
+        //},
+
+        messages: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            return Message.find(params);
+        },
+        message: async (parent, { messageId }) => {
+            return Message.findOne({ _id: messageId });
+          },
     },
 
     Mutation: {
@@ -54,18 +64,20 @@ module.exports = {
             return { token, user };
           },
 
-        saveMessage: async (parent, args) => {
-            const message = {
-                _id: 1,
-                description: args.description,
-            }
-            messages.push(message);
+    
+        addMessage: async (parent, { description }) => {
+            const message = await Message.create({ description });
+            pubsub.publish('MESSAGE_ADDED', { messageAdded: message });
             return message;
-        },
+          },
 
-        updateMessage: async (parent, { messageId, description}) => {
+        updateMessage: async (parent, { _id, description}) => {
             try{
-                return Message.findOneAndUpdate({_id: messageId}, { description }, {new:true});
+                return await Message.findOneAndUpdate(
+                    {_id}, 
+                    { description }, 
+                    {new:true} 
+                );
             } catch (error) {
                 throw new Error(`Failed to update message: ${error.message}`);
             }
@@ -73,8 +85,19 @@ module.exports = {
       
         },
 
-        deleteMessage: async (parent, { messageId }) => {
-            return Thought.findOneAndDelete({ _id: messageId });
+        deleteMessage: async (parent, {_id }) => {
+            return await Message.findOneAndDelete({ _id });
           },
-    }
+    },
+
+    Subscription: {
+        messageAdded: {
+          subscribe: () => {
+            return pubsub.asyncIterator('MESSAGE_ADDED');
+          },
+          resolve: (payload) => {
+            return payload.messageAdded;
+          },
+        },
+      },
 }

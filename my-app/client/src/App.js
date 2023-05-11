@@ -1,5 +1,6 @@
 import {NewMessage} from './pages/NewMessage'
 import {Home} from './pages/Home'
+import {Chat} from './pages/Chat'
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import './styles/normalize.css';
@@ -59,6 +60,10 @@ function App() {
           <Route 
             path="/signup" 
             element={<Signup />} 
+          />
+          <Route 
+            path="/chat/:chatId"
+            element={<Chat />}
           />
         </Routes>
       </BrowserRouter>

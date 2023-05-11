@@ -24,16 +24,6 @@ export const ADD_USER = gql`
   }
 `;
 
-export const CREATE_MESSAGE = gql`
-  mutation createMessage($description: String!) {
-    createMessage(description: $description) 
-    {
-        _id
-        description
-    }
-  }  
-`;
-
 export const DELETE_MESSAGE = gql`
   mutation deleteMessage($messageID:ID!)
   {
@@ -49,3 +39,13 @@ export const UPDATE_MESSAGE = gql`
   }
 }
  `;
+
+ export const ADD_MESSAGE = gql`
+  mutation addMessage($description: String!) {
+    addMessage(description: $description) {
+      _id
+      description
+    }
+  }
+`;
+

@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const messageSchema = new Schema({
-    messageText: {
+    description: {
     type: String,
     required: 'You need to leave a message!',
     minlength: 1,
