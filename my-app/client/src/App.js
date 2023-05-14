@@ -45,10 +45,7 @@ function App() {
           <Navbar />
         </header>
         <Routes>
-          <Route 
-            path="/new-message"
-            element={<NewMessage />}
-          />
+          
           <Route 
             path="/"
             element={<Home />}
@@ -62,7 +59,7 @@ function App() {
             element={<Signup />} 
           />
           <Route 
-            path="/chat/:chatId"
+            path="/chat"
             element={<Chat />}
           />
         </Routes>

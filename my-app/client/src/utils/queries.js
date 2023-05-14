@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export const QUERY_MESSAGES = gql`
     query getMessages {
         messages {
+            _id
             description
         }
     }
@@ -22,9 +23,22 @@ export const QUERY_USER = gql`
   }
 `;
 
+//export const MESSAGE_SUBSCRIPTION = gql`
+  //subscription {
+    //messageAdded {
+      //_id
+      //description
+      //user {
+        //_id
+        //username
+      //}
+    //}
+  //}
+//`;
+
 export const MESSAGE_SUBSCRIPTION = gql`
-  subscription {
-    messageAdded {
+  subscription messageAdded($description: String!) {
+    messageAdded(description: $description) {
       _id
       description
       user {
