@@ -92,11 +92,11 @@ module.exports = {
 
     Subscription: {
         messageAdded: {
-          subscribe: () => {
-            return pubsub.asyncIterator('MESSAGE_ADDED');
+          subscribe: (_, { description }) => {
+            return pubsub.asyncIterator('MESSAGE_ADDED_${description');
           },
           resolve: (payload) => {
-            return payload.messageAdded;
+            return payload;
           },
         },
       },

@@ -9,31 +9,48 @@ export function Chat(props) {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const { description } = useParams();
+
     const { loading, error, data } = useQuery(QUERY_MESSAGES, {
       variables: { description },
       
     });
-    const [addMessage] = useMutation(ADD_MESSAGE);
-    const { data: subscriptionData } = useSubscription(MESSAGE_SUBSCRIPTION, {
-      variables: { description },
+    const [addMessage] = useMutation(ADD_MESSAGE, {
+      update(cache, { data: { addMessage } }) {
+        const existingMessages = cache.readQuery({
+          query: QUERY_MESSAGES,
+          variables: { description }
+        });
+        cache.writeQuery({
+          query: QUERY_MESSAGES,
+          variables: { description },
+          data: {
+            messages: [addMessage, ...existingMessages.messages]
+          }
+        });
+      }
     });
   
+    
+
     useEffect(() => {
       if (data && data.messages) {
         setMessages(data.messages);
       }
     }, [data]);
-  
-    useEffect(() => {
-      if (subscriptionData && subscriptionData.messageAdded) {
-        setMessages([...messages, subscriptionData.messageAdded]);
+    
+    const { data: subscriptionData } = useSubscription(MESSAGE_SUBSCRIPTION, {
+      variables: { description },
+      onSubscriptionData: ({ subscriptionData }) => {
+        const { data: { messageAdded } } = subscriptionData;
+        setMessages(prevMessages => [...prevMessages, messageAdded]);
+        console.log(subscriptionData)
       }
-    }, [subscriptionData]);
-  
+    });
+
     const handleSubmit = (e) => {
       e.preventDefault();
       addMessage({
-        variables: { input: { description: message } },
+        variables: { input: { description: message} },
       });
       setMessage('');
     };
@@ -46,10 +63,9 @@ export function Chat(props) {
         <h2>Chat Room</h2>
         <ul>
           {messages.map((message) => (
-            //<li key={message.id}>
-            <li>
-                {JSON.stringify(message)}
-              {message.user?.username}: {message.description}
+            <li key={message.id}>
+              
+              {message.description} 
             </li>
           ))}
         </ul>

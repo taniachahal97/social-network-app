@@ -33,7 +33,7 @@ export const DELETE_MESSAGE = gql`
 
 export const UPDATE_MESSAGE = gql`
   mutation updateMessage($messageId: ID!, $description: String!) {
-  updateMessage(_id: $messageId, description: $updatedContent) {
+  updateMessage(_id: $messageId, description: $description) {
     _id
     description
   }
@@ -48,4 +48,5 @@ export const UPDATE_MESSAGE = gql`
     }
   }
 `;
+
 
