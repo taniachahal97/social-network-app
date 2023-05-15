@@ -8,7 +8,7 @@ import { QUERY_MESSAGES } from '../utils/queries';
 import Auth from '../utils/auth';
 
 export function NewMessage(props) { 
-  const [description, setThoughtText] = useState('');
+  const [description, setMessageText] = useState('');
 
   const [characterCount, setCharacterCount] = useState(0);
 
@@ -37,7 +37,7 @@ export function NewMessage(props) {
         },
       });
 
-      setThoughtText('');
+      setMessageText('');
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +47,7 @@ export function NewMessage(props) {
     const { name, value } = event.target;
 
     if (name === 'description' && value.length <= 280) {
-      setThoughtText(value);
+      setMessageText(value);
       setCharacterCount(value.length);
     }
 
@@ -57,7 +57,7 @@ export function NewMessage(props) {
 
   return (
     <div>
-      <h3>What's on your techy mind?</h3>
+      <h3>Start your Chats here...</h3>
 
       {Auth.loggedIn() ? (
         <>
@@ -66,7 +66,6 @@ export function NewMessage(props) {
               characterCount === 280 || error ? 'text-danger' : ''
             }`}
           >
-            Character Count: {characterCount}/280
           </p>
           <form
             className="flex-row justify-center justify-space-between-md align-center"
