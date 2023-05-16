@@ -94,8 +94,8 @@ export function NewMessage() {
       {Auth.loggedIn() ? (
         <form onSubmit={editMessage ? handleEditFormSubmit : handleFormSubmit}>
           <input type="text" value={editMessage? editMessage.description: inputValue} onChange={editMessage ? handleEditChange : handleInputChange} />
-          <button type="submit">{editMessage ? 'Save' : 'Add'}</button>
-          {editMessage && <button type="button" onClick={handleCancelEdit}>Cancel</button>}
+          <button className = "btn btn-info" type="submit">{editMessage ? 'Save' : 'Add'}</button>
+          {editMessage && <button className = "btn btn-danger" type="button" onClick={handleCancelEdit}>Cancel</button>}
         </form>
       ) : (
         <p>You must be logged in to add or edit messages.</p>
@@ -106,7 +106,7 @@ export function NewMessage() {
           <li key={message.id}>
             {message.description}{' '}
             {Auth.loggedIn() && (
-              <button type="button" onClick={() => handleEditClick(message)}>Edit</button>
+              <button type="button" className= "btn btn-primary" onClick={() => handleEditClick(message)}>Edit</button>
             )}
           </li>
         ))}
