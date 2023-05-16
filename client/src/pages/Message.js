@@ -11,10 +11,10 @@ export function Message ({ messages, title}){
       <h3>{title}</h3>
       {messages &&
         messages.map((message) => (
-          <div key={message._id} className=" mb-3">
+          <div key={message._id} className=" card-rounded mb-3">
             <h4 className="">
             </h4>
-            <div className="card card-rounded bg-light p-2">
+            <div className="card card-rounded card-body bg-light p-1">
               <p>{message.description}</p>
             </div>
           </div>

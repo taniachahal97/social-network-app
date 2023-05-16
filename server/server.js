@@ -11,7 +11,7 @@ const db = require('./config/connection.js')
 
 const app = express();
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const WS_PORT = 3002; // New port for WebSocket server
 
 app.use(express.static(path.join(__dirname, '../client/build')));
